@@ -16,7 +16,7 @@ class ExampleClassA : ICloneable
     public object Clone() 
     {
         ExampleClassA clonedObject = new ExampleClassA() { PropertyName = this.PropertyName, PropertyAge = this.PropertyAge };
-        classB = new ExampleClassB() { stringValue = "new class B" };
+        classB = new ExampleClassB();
         return clonedObject;
     }
     public void TestFunctionA()
