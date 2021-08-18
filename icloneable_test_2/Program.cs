@@ -7,8 +7,8 @@ namespace iclonable_sample
         static void Main(string[] args)
         {
             ExampleClassA classA1 = new ExampleClassA() { PropertyName="A1", PropertyAge="1" };
-            ExampleClassA classA2 = (ExampleClassA)classA1.Clone();
-            //ExampleClassA classA2 = (ExampleClassA)ReflectionDeepCopy.Clone(classA1);
+            //ExampleClassA classA2 = (ExampleClassA)classA1.Clone();
+            ExampleClassA classA2 = (ExampleClassA)ReflectionDeepCopy.Clone(classA1);
 
             PrintClassData(classA1);
             PrintClassData(classA2);
