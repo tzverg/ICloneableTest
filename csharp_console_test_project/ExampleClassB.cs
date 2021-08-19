@@ -1,3 +1,5 @@
+using System;
+
 class ExampleClassB
 {
     public string stringValue = "default value B";
@@ -7,4 +9,9 @@ class ExampleClassB
     protected internal double doubleValue = 2.2;
 
     protected private byte PropertyValue { get; private set; }
+
+    public ExampleClassB()
+    {
+        // Console.WriteLine($"created " + this.ToString());
+    }
 }

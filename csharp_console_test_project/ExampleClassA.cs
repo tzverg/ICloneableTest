@@ -10,6 +10,7 @@ class ExampleClassA : ICloneable
 
     public ExampleClassA()
     {
+        // Console.WriteLine($"created " + this.ToString());
         classB = new ExampleClassB();
     }
 
