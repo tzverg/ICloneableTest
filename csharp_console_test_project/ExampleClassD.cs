@@ -1,6 +1,6 @@
 using System;
 
-public class ExampleClassD 
+[CloneableValidation] public class ExampleClassD 
 {
     public string dStringValue = "default value D";
     protected bool cBoolValue = false;

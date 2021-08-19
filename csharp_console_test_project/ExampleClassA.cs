@@ -1,7 +1,7 @@
 
 using System;
 
-class ExampleClassA : ICloneable
+[CloneableValidation] class ExampleClassA : ICloneable
 {
     public string PropertyName { get; set; }
     public string PropertyAge { get; set; }

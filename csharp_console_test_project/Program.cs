@@ -1,6 +1,6 @@
 ﻿#region preprocessor directives
-    #define TEST_A
-    // #define TEST_D
+    // #define TEST_A
+    #define TEST_D
 
     // #define TEST_DIRECT_ASSIGNMENT
     #define TEST_ICLONABLE
@@ -72,11 +72,34 @@ namespace iclonable_sample
                 T classCopy = classTarget;
             #elif TEST_ICLONABLE
                 Console.WriteLine($"copy class {classTarget.ToString()} by Clone method of ICloneable interface");
-                T classCopy = (T)(classTarget as ICloneable).Clone();
+                T classCopy = ValidateAndCopy(classTarget);
             #else
                 Console.WriteLine($"copy class {classTarget.ToString()} by Clone method that use reflection");
-            T classCopy = (T)ReflectionDeepCopy.Clone(classTarget);
+                T classCopy = (T)ReflectionDeepCopy.Clone(classTarget);
             #endif
+
+            return classCopy;
+        }
+
+        private static T ValidateAndCopy<T>(T classTarget)
+        {
+            Type t = typeof(T);
+            object[] attrs = t.GetCustomAttributes(false);
+            T classCopy = default(T);
+
+            foreach (CloneableValidationAttribute attr in attrs)
+            {
+                if (attr.CloneableValidate<T>(classTarget))
+                {
+                    classCopy = (T)(classTarget as ICloneable).Clone();
+                }
+            }
+
+            if (classCopy == null)
+            {
+                Console.WriteLine($"class {classTarget.ToString()} does not implement the IClonable interface, than copy class by Clone method that use reflection");
+                classCopy = (T)ReflectionDeepCopy.Clone(classTarget);
+            }
 
             return classCopy;
         }
