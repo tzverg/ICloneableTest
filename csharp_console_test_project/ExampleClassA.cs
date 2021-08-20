@@ -1,32 +1,35 @@
 
 using System;
 
-[CloneableValidation] class ExampleClassA : ICloneable
+namespace Testnamespace
 {
-    public string PropertyName { get; set; }
-    public string PropertyAge { get; set; }
-
-    public ExampleClassB classB;
-
-    public ExampleClassA()
+    [CloneableValidation] class ExampleClassA : ICloneable
     {
-        // Console.WriteLine($"created " + this.ToString());
-        classB = new ExampleClassB();
-    }
+        public string PropertyName { get; set; }
+        public string PropertyAge { get; set; }
 
-    public object Clone() 
-    {
-        ExampleClassA clonedObject = new ExampleClassA() { PropertyName = this.PropertyName, PropertyAge = this.PropertyAge };
-        classB = new ExampleClassB();
-        return clonedObject;
-    }
-    public void TestFunctionA()
-    { 
+        public ExampleClassB classB;
 
-    }
+        public ExampleClassA()
+        {
+            // Console.WriteLine($"created " + this.ToString());
+            classB = new ExampleClassB();
+        }
 
-    private bool TestFunctionB()
-    {
-        return true;
+        public object Clone()
+        {
+            ExampleClassA clonedObject = new ExampleClassA() { PropertyName = this.PropertyName, PropertyAge = this.PropertyAge };
+            classB = new ExampleClassB();
+            return clonedObject;
+        }
+        public void TestFunctionA()
+        {
+
+        }
+
+        private bool TestFunctionB()
+        {
+            return true;
+        }
     }
 }

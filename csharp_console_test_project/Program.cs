@@ -1,6 +1,6 @@
 ﻿#region preprocessor directives
-    // #define TEST_A
-    #define TEST_D
+    #define TEST_A
+    // #define TEST_D
 
     // #define TEST_DIRECT_ASSIGNMENT
     #define TEST_ICLONABLE
@@ -9,22 +9,43 @@
     #define CREATE_INSTANCE
     #define COPY_INSTANCE
     #define CHANGE_DATA
-    #define PRINT_INFO
+    // #define PRINT_INFO
+    #define PRINT_MESSAGES
 #endregion
 
 using System;
+using AR_496;
 
-namespace iclonable_sample
+namespace Testnamespace
 {
+    #region namespace delegates
+        public delegate string DelegateMessage();
+        public delegate void EventMessage(string value);
+    #endregion
+
     class Program
     {
         static void Main(string[] args)
+        {
+            //TestPreprocessorDirectives();
+
+            TestEvent();
+        }
+
+        private static void TestEvent()
+        {
+            ClassCounter classCounter = new ClassCounter();
+            classCounter.onCount += new MessageHandler().Message;
+            classCounter.Count();
+        }
+
+        private static void TestPreprocessorDirectives()
         {
             #region create class instance
                 #if CREATE_INSTANCE
                     #if TEST_A
                         ExampleClassA classA1 = new ExampleClassA { PropertyName = "A1", PropertyAge = "1" };
-                    #elif TEST_D 
+                    #elif TEST_D
                         ExampleClassD classD1 = new ExampleClassD { exampleClassC = new ExampleClassC() };
                     #endif
                 #endif
@@ -57,9 +78,26 @@ namespace iclonable_sample
                     #if TEST_A
                         PrintClassData(classA1);
                         PrintClassData(classA2);
-                    #elif TEST_D 
+                    #elif TEST_D
                         PrintClassData(classD1);
                         PrintClassData(classD2);
+                    #endif
+                #endif
+            #endregion
+
+            #region print messages
+                #if PRINT_MESSAGES
+                    #if TEST_A
+                                classA1.classB.messageB += classA1.classB.messageB;
+                                classA1.classB.messageB += classA1.classB.messageB;
+                                classA1.classB.messageB?.Invoke();
+                                classA1.classB.messageB -= classA1.classB.messageB;
+                                classA1.classB.messageB?.Invoke();
+                                classA1.classB.messageB -= classA1.classB.messageB;
+                                classA1.classB.messageB?.Invoke();
+                    #elif TEST_D
+                                            classD1.exampleClassC.messageC?.Invoke();
+                                            classD2.exampleClassC.messageC?.Invoke();
                     #endif
                 #endif
             #endregion
