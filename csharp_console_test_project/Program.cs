@@ -16,6 +16,11 @@
 using System;
 using AR_496;
 
+enum OperationType
+{
+    ADD, SUBSTRACT, MULTIPLY, DIVIDE
+}
+
 namespace Testnamespace
 {
     #region namespace delegates
@@ -29,7 +34,38 @@ namespace Testnamespace
         {
             //TestPreprocessorDirectives();
 
-            TestEvent();
+            //TestEvent();
+
+            TestDelegateAPF(false, false, true);
+        }
+
+        private static void TestDelegateAPF(bool testAction, bool testPredicate, bool testFunc)
+        {
+            if (testAction)
+            {
+                Action<int, int, OperationType> mathOperation = MathOperationEvent;
+                MathOperation(4, 2, mathOperation);
+            }
+
+            if (testPredicate)
+            {
+                Predicate<int> isPositive = delegate (int x) { return x > 0; };
+
+                Console.WriteLine(isPositive(1));
+                Console.WriteLine(isPositive(-1));
+                Console.WriteLine(isPositive(0));
+            }
+
+            if (testFunc)
+            {
+                Func<int, int> retFunc = GetFactorial;
+
+                int resultA = GetResult(4, retFunc);
+                int resultB = GetResult(4, x => (x - 1));
+
+                Console.WriteLine($"Test Func delegate, factorial: {resultA}");
+                Console.WriteLine($"Test Func delegate: {resultB}");
+            }
         }
 
         private static void TestEvent()
@@ -101,6 +137,58 @@ namespace Testnamespace
                     #endif
                 #endif
             #endregion
+        }
+
+        private static int GetResult(int mainValue, Func<int, int> returnFunc)
+        {
+            int result = 0;
+
+            if (mainValue > 0)
+            {
+                result = returnFunc(mainValue);
+            }
+
+            return result;
+        }
+
+        private static int GetFactorial(int x)
+        {
+            int resultValue = 1;
+            for (int cnt = 1; cnt <= x; cnt++)
+            {
+                resultValue *= cnt;
+            }
+            return resultValue;
+        }
+
+        private static void MathOperation(int operandX, int operadnY, Action<int, int, OperationType> mathOperation)
+        {
+            if ((operandX * operadnY) > 0)
+            {
+                mathOperation(operandX, operadnY, OperationType.MULTIPLY);
+            }
+        }
+
+        private static void MathOperationEvent(int operandX, int operadnY, OperationType operationType)
+        {
+            switch (operationType)
+            {
+                case OperationType.MULTIPLY:
+                    Console.WriteLine($"Произведение чисел: " + (operandX * operadnY));
+                    break;
+                case OperationType.DIVIDE:
+                    Console.WriteLine($"Частное чисел: " + (operandX / operadnY));
+                    break;
+                case OperationType.ADD:
+                    Console.WriteLine($"Сумма чисел: " + (operandX + operadnY));
+                    break;
+                case OperationType.SUBSTRACT:
+                    Console.WriteLine($"Разность чисел: " + (operandX - operadnY));
+                    break;
+                default:
+                    Console.WriteLine($"Нет определения для указанной операции");
+                    break;
+            }
         }
 
         private static T CopyClass<T>(T classTarget)
