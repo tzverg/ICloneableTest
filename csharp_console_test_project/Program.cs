@@ -1,20 +1,27 @@
 ﻿#region preprocessor directives
-    #define TEST_A
+    // #define TEST_A
     // #define TEST_D
 
     // #define TEST_DIRECT_ASSIGNMENT
-    #define TEST_ICLONABLE
+    // #define TEST_ICLONABLE
     // #define TEST_REFLECTION_DEEP_COPY
 
-    #define CREATE_INSTANCE
-    #define COPY_INSTANCE
-    #define CHANGE_DATA
+    // #define CREATE_INSTANCE
+    // #define COPY_INSTANCE
+    // #define CHANGE_DATA
     // #define PRINT_INFO
-    #define PRINT_MESSAGES
+    // #define PRINT_MESSAGES
+    // #define TEST_APF
+    // #define TEST_DIRECTIVES
+    #define TEST_LAMBDA
 #endregion
 
 using System;
 using AR_496;
+
+#if TEST_LAMBDA
+    using AR_497;
+#endif
 
 enum OperationType
 {
@@ -32,11 +39,18 @@ namespace Testnamespace
     {
         static void Main(string[] args)
         {
-            //TestPreprocessorDirectives();
+            #if TEST_DIRECTIVES
+                TestPreprocessorDirectives();
+            #endif
 
-            //TestEvent();
+            #if TEST_APF
+                TestEvent();
+                TestDelegateAPF(false, false, true);
+            #endif
 
-            TestDelegateAPF(false, false, true);
+            #if TEST_LAMBDA
+                Calculation.TestLambdaFunction();
+            #endif
         }
 
         private static void TestDelegateAPF(bool testAction, bool testPredicate, bool testFunc)
