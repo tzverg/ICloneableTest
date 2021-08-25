@@ -13,13 +13,14 @@
     // #define PRINT_MESSAGES
     // #define TEST_APF
     // #define TEST_DIRECTIVES
-    #define TEST_LAMBDA
+    // #define TEST_LAMBDA
+    #define TEST_LINQ
 #endregion
 
 using System;
 using AR_496;
 
-#if TEST_LAMBDA
+#if TEST_LAMBDA || TEST_LINQ
     using AR_497;
 #endif
 
@@ -50,6 +51,10 @@ namespace Testnamespace
 
             #if TEST_LAMBDA
                 Calculation.TestLambdaFunction();
+            #endif
+
+            #if TEST_LINQ
+                TestLinq.TestLinqToObjects();
             #endif
         }
 
