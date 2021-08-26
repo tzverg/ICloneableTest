@@ -14,14 +14,20 @@
     // #define TEST_APF
     // #define TEST_DIRECTIVES
     // #define TEST_LAMBDA
-    #define TEST_LINQ
+    // #define TEST_LINQ
+    #define TEST_ASYNC
 #endregion
 
 using System;
+using System.Threading;
 using AR_496;
 
 #if TEST_LAMBDA || TEST_LINQ
     using AR_497;
+#endif
+
+#if TEST_ASYNC
+    using AR_499;
 #endif
 
 enum OperationType
@@ -40,21 +46,30 @@ namespace Testnamespace
     {
         static void Main(string[] args)
         {
-            #if TEST_DIRECTIVES
-                TestPreprocessorDirectives();
-            #endif
+            #region test defines
+                #if TEST_DIRECTIVES
+                    TestPreprocessorDirectives();
+                #endif
 
-            #if TEST_APF
-                TestEvent();
-                TestDelegateAPF(false, false, true);
-            #endif
+                #if TEST_APF
+                    TestEvent();
+                    TestDelegateAPF(false, false, true);
+                #endif
 
-            #if TEST_LAMBDA
-                Calculation.TestLambdaFunction();
-            #endif
+                #if TEST_LAMBDA
+                    Calculation.TestLambdaFunction();
+                #endif
 
-            #if TEST_LINQ
-                TestLinq.TestLinqToObjects();
+                #if TEST_LINQ
+                    TestLinq.TestLinqToObjects();
+                #endif
+            #endregion
+
+            #if TEST_ASYNC
+                System.Console.WriteLine($"количество потоков: {System.Diagnostics.Process.GetCurrentProcess().Threads.Count}");
+                AsyncFileSaver.ReadWriteAsync("резервная копия строки");
+                Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId}: выполнение некоторой работы асинхронно процессу записи в файл");
+                System.Console.WriteLine($"количество потоков: {System.Diagnostics.Process.GetCurrentProcess().Threads.Count}");
             #endif
         }
 
